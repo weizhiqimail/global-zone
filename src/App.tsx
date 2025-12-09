@@ -10,7 +10,8 @@ const App: React.FC = () => {
   const [selectedCities, setSelectedCities] = useState<string[]>([
     "Tokyo",
     "NewYork",
-  ]);
+    "London",
+]);
 
   const [, setTick] = useState(0);
 
