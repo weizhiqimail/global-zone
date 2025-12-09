@@ -1,75 +1,64 @@
-# React + TypeScript + Vite
+# 全球城市时区对应（Global City Timezone Viewer）
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+一个基于 React + TypeScript + Vite 的全球多城市时区可视化工具。  
+通过可视化的 24 小时时间条展示世界主要城市在当前时刻对应的本地时间，并支持多城市选择、跨日显示、分钟级精确定位以及当前时间的动态指示。
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 功能特性
 
-## React Compiler
+### 1. 多城市选择（Tag 标签形式）
+- 用户可通过点击标签的方式选择或取消城市。
+- 标签不使用 Select 或 Checkbox，而是独立的 Tag 元素。
+- 取消选中时带有淡入淡出动画。
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+### 2. 动态时区计算
+- 按照基准城市（北京）进行其他城市的时间换算。
+- 支持显示当前为：
+  - 当日
+  - 前一日
+  - 次日
+- 显示格式类似：
+  - 北京：当日 13:25
+  - 伦敦：前一日 18:25
+  - 纽约：前一日 13:25
 
-Note: This will impact Vite dev & build performances.
+### 3. 24 小时时间条可视化
+- 每一行代表一个城市，包含 24 个时间单元（0–23 点）。
+- 单元格下方显示对应小时数字。
+- 当天已过去的时间单元格使用深灰色，未来使用浅灰色（均来自配置文件）。
+- 当前实际时间的精确位置以红色竖线标记。
+- 各城市的本地时间位置与红线同步偏移。
 
-## Expanding the ESLint configuration
+### 4. 秒级刷新
+- 页面每秒刷新一次，以确保时间与定位实时更新。
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 5. 城市顺序
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+使用固定排序：  
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+东京 → 北京 → 悉尼 → 洛杉矶 → 纽约 → 伦敦 → 巴黎
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 技术栈
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **React 18 + TypeScript**
+- **Vite**（作为构建工具）
+- **Bootstrap 3.3.7**（UI 样式）
+- 自定义 CSS 动画（Tag 动画淡入淡出）
+- 原生国际化时间计算（Intl.DateTimeFormat + timezones）
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+## 安装与启动
+
+```bash
+# 安装依赖
+npm install
+
+# 启动开发环境
+npm run dev
+
+# 构建生产包
+npm run build

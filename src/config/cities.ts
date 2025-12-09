@@ -6,7 +6,7 @@ export interface CityConfig {
 
 export const CITY_LIST: CityConfig[] = [
     { id: "Tokyo", name: "东京", timezone: "Asia/Tokyo" },
-        { id: "Beijing", name: "北京", timezone: "Asia/Shanghai" },
+    { id: "Beijing", name: "北京", timezone: "Asia/Shanghai" },
     { id: "Sydney", name: "悉尼", timezone: "Australia/Sydney" },
     { id: "LosAngeles", name: "洛杉矶", timezone: "America/Los_Angeles" },
     { id: "NewYork", name: "纽约", timezone: "America/New_York" },
