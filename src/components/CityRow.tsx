@@ -1,11 +1,11 @@
 import React from "react";
-import { type CityTimeInfo } from "../utils/time";
+import { type CityTimeInfo, DayRelation } from "../utils/time";
 import { TimeBar } from "./TimeBar";
 
-const relationText = {
-  prev: "前一日",
-  same: "当日",
-  next: "次日",
+const RelationTextMap = {
+  [DayRelation.PREV]: "前一日",
+  [DayRelation.SAME]: "当日",
+  [DayRelation.NEXT]: "次日",
 };
 
 interface Props {
@@ -24,8 +24,18 @@ export const CityRow: React.FC<Props> = ({ data }) => {
 
         <div className="col-xs-7">
           {data.localTime.format("YYYY-MM-DD HH:mm:ss")}
-          {"  "}
-          <span>（{relationText[data.dayRelation]}&nbsp;&nbsp;&nbsp;&nbsp;周{weekMap[data.localTime.day()]}）</span>
+          <span>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
+          {
+            data.dayRelation === DayRelation.SAME ?
+              <span>{RelationTextMap[data.dayRelation]}</span> :
+              <span style={{ color: 'red' }}>{RelationTextMap[data.dayRelation]}</span>
+          }
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <span>
+            周{weekMap[data.localTime.day()]}
+          </span>
         </div>
       </div>
 

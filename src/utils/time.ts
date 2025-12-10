@@ -1,27 +1,22 @@
 import moment from "moment-timezone";
 
-import { CITY_LIST } from "../config/cities";
+import { CITY_LIST, type CityConfig } from "../config/cities";
+
+export enum DayRelation {
+  PREV = "PREV",
+  SAME = "SAME",
+  NEXT = "NEXT",
+}
 
 export interface CityTimeInfo {
   cityId: string;
   name: string;
   timezone: string;
   localTime: moment.Moment;
-  dayRelation: "prev" | "same" | "next";
+  dayRelation: DayRelation;
   positionRatio: number;
 }
 
-export function getDayRelation(
-  base: moment.Moment,
-  target: moment.Moment
-): "prev" | "same" | "next" {
-  const baseDate = base.format("YYYY-MM-DD");
-  const targetDate = target.format("YYYY-MM-DD");
-
-  if (targetDate === baseDate) return "same";
-  if (target.isBefore(base, "day")) return "prev";
-  return "next";
-}
 
 export function calculatePositionRatio(time: moment.Moment): number {
   const total = time.hours() * 60 * 60 + time.minutes() * 60 + time.seconds();
@@ -29,7 +24,7 @@ export function calculatePositionRatio(time: moment.Moment): number {
 }
 
 export function computeCityTimes(
-  cityConfigs: { id: string; name: string; timezone: string }[],
+  cityConfigs: CityConfig[],
   baseCityId: string
 ): CityTimeInfo[] {
   let baseCity = cityConfigs.find((c) => c.id === baseCityId);
@@ -37,18 +32,38 @@ export function computeCityTimes(
     baseCity = CITY_LIST[0];
   }
 
-  const baseNow = moment().tz(baseCity.timezone);
-
-  return cityConfigs.map((city) => {
-    const localTime = moment().tz(city.timezone);
-
+  return cityConfigs.map((compareCity) => {
+    const localTime = moment().tz(compareCity.timezone);
     return {
-      cityId: city.id,
-      name: city.name,
-      timezone: city.timezone,
+      cityId: compareCity.id,
+      name: compareCity.name,
+      timezone: compareCity.timezone,
       localTime,
-      dayRelation: getDayRelation(baseNow, localTime),
+      dayRelation: getDayRelation(baseCity, compareCity),
       positionRatio: calculatePositionRatio(localTime),
     };
   });
+
+
+  function getDayRelation(
+    baseCity: CityConfig,
+    targetCity: CityConfig
+  ): DayRelation {
+
+    const baseCityTime = moment().tz(baseCity.timezone)
+    const targetCityTime = moment().tz(targetCity.timezone)
+
+    const baseDate = baseCityTime.format("YYYY-MM-DD");
+    const targetDate = targetCityTime.format("YYYY-MM-DD");
+
+    if (targetDate === baseDate) {
+      return DayRelation.SAME;
+    }
+    if (moment(targetDate).isBefore(baseDate, "day")) {
+      return DayRelation.PREV;
+    }
+    console.log(targetCity.name, 'not isBefore', baseCity.name);
+    return DayRelation.NEXT;
+  }
+
 }
