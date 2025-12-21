@@ -3,6 +3,7 @@ import { CITY_LIST } from "./config/cities";
 import { CityTagSelector } from "./components/CityTagSelector";
 import { computeCityTimes } from "./utils/time";
 import { CityRow } from "./components/CityRow";
+import HourMappingTable from "./components/HourMappingTable.tsx";
 
 const BASE_CITY_ID = CITY_LIST[0].id;
 
@@ -42,6 +43,8 @@ const App: React.FC = () => {
       {cityTimes.map((ct) => (
         <CityRow key={ct.cityId} data={ct} />
       ))}
+
+      <HourMappingTable selectedCityIds={selectedCities} />
     </div>
   );
 };

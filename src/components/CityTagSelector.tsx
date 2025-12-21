@@ -28,7 +28,7 @@ export const CityTagSelector: React.FC<Props> = ({
 
   return (
     <div className="form-inline" style={{ marginBottom: 30 }}>
-      <label style={{ marginRight: 10 }}>城市选择：</label>
+      <label style={{ marginRight: 10 }}>城市：</label>
 
       {cities.map((c) => {
         const active = selected.includes(c.id);
