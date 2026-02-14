@@ -31,8 +31,8 @@ const App: React.FC = () => {
   const cityTimes = computeCityTimes(filteredCities, BASE_CITY_ID);
   
   return (
-    <div className="container" style={{ marginTop: 30 }}>
-      <h3 style={{ textAlign: 'center', marginBottom: 30 }}>全球城市时区对应</h3>
+    <div className="container" style={{ paddingTop: 30 }}>
+      <h3 style={{ textAlign: 'center', paddingBottom: 30 }}>全球城市时区对应</h3>
 
       <CityTagSelector
         cities={CITY_LIST}

@@ -27,7 +27,7 @@ export const CityTagSelector: React.FC<Props> = ({
   };
 
   return (
-    <div className="form-inline" style={{ marginBottom: 30 }}>
+    <div className="form-inline" style={{ marginBottom: 30, lineHeight: "30px" }}>
       <label style={{ marginRight: 10 }}>城市：</label>
 
       {cities.map((c) => {
